@@ -1,116 +1,103 @@
-const evaluador = () => {
-    // Array para almacenar el historial de cálculos
-    let historial = [];
 
-    // Función para obtener un número válido de acuerdo a una condición y mensaje
-    const obtenerNumeroValido = (mensaje, condicion, maxIntentos = 3) => {
-        let numero;
-        let intentos = 0;
-        while (intentos < maxIntentos) {
-            const entrada = prompt(mensaje);
-            numero = parseFloat(entrada);
-            if (!isNaN(numero) && condicion(numero)) {
-                return numero;
-            }
-            intentos++;
-            alert(`Valor incorrecto. Intento ${intentos} de ${maxIntentos}. Por favor, ingresa un número válido.`);
-        }
-        alert("Número máximo de intentos alcanzado, vuelva pronto.");
-        return null;
-    };
-    // funcion para calcular el IVA
-    const calcularImpuestoIVA = (precio) => {
-        return precio * 0.21;
-    };
-    // funcion para carcular el porcentaje de descuento
-    const calcularDescuento = (precio, porcentaje) => {
-        return (precio * porcentaje) / 100;
-    };
-    // funcion final para obtener precio final
-    const calcularPrecioFinal = (precio, descuento, impuestoIVA) => {
-        const precioConDescuento = precio - descuento;
-        return precioConDescuento + impuestoIVA;
-    };
-    // funcion  para mostrar los resultados para el usuario y que los decimales
-    const mostrarResultados = (precio, descuento, porcentajeDescuento, impuestoIVA, precioFinal) => {
-        alert(
-            `Precio del artículo: ${precio.toFixed(2)}\n` +
-            `Descuento: ${descuento.toFixed(2)} (${porcentajeDescuento.toFixed(2)}%)\n` +
-            `Impuesto IVA: ${impuestoIVA.toFixed(2)}\n` +
-            `Precio final: ${precioFinal.toFixed(2)}`
-        );
-    };
-    // Función para agregar un cálculo al historial
-    const agregarAlHistorial = (precio, descuento, porcentajeDescuento, impuestoIVA, precioFinal) => {
-        historial.push({
-            precio,
-            descuento,
-            porcentajeDescuento,
-            impuestoIVA,
-            precioFinal
-        });
-    };
-    // Función para mostrar el historial
-    const mostrarHistorial = () => {
-        if (historial.length === 0) {
-            alert("No realizaste ningun calculo.");
-            return;
-        }
-        let historialTexto = "Historial de Cálculos:\n";
-        historial.forEach((item, index) => {
-            historialTexto += `\nArtículo ${index + 1}:\n` +
-                `Precio: ${item.precio.toFixed(2)}\n` +
-                `Descuento: ${item.descuento.toFixed(2)} (${item.porcentajeDescuento.toFixed(2)}%)\n` +
-                `Impuesto IVA: ${item.impuestoIVA.toFixed(2)}\n` +
-                `Precio Final: ${item.precioFinal.toFixed(2)}\n`;
-        });
-        alert(historialTexto);
-    };
-    // prompt para ingresar los valores
-    const procesoImpuestoDelArticulo = () => {
-        const precioArticulo = obtenerNumeroValido(
-            "Ingresa el precio del Artículo (debe ser mayor a 0)",
-            (num) => num > 0
-        );
-        if (precioArticulo === null) return false;
-        const porcentajeDescuento = obtenerNumeroValido(
-            "Ingresa el porcentaje de descuento (por ejemplo, 10 para 10%, debe estar entre 0 y 100)",
-            (num) => num >= 0 && num <= 100
-        );
-        if (porcentajeDescuento === null) return false;
-        const impuestoIVA = calcularImpuestoIVA(precioArticulo);
-        const descuento = calcularDescuento(precioArticulo, porcentajeDescuento);
-        const precioFinalArticulo = calcularPrecioFinal(precioArticulo, descuento, impuestoIVA);
-        mostrarResultados(precioArticulo, descuento, porcentajeDescuento, impuestoIVA, precioFinalArticulo);
-        // crear historial
-        agregarAlHistorial(precioArticulo, descuento, porcentajeDescuento, impuestoIVA, precioFinalArticulo);
-        return true;
-    };
+document.addEventListener("DOMContentLoaded", () => {
+  let historial = JSON.parse(localStorage.getItem("historial")) || [];
+  const calcularBtn = document.getElementById("calcularBtn");
+  const showHistoryBtn = document.getElementById("showHistoryBtn");
+  const hideHistoryBtn = document.getElementById("hideHistoryBtn");
+  const resultadoDiv = document.getElementById("resultado");
+  const historialDiv = document.getElementById("historial");
+  const historialList = document.getElementById("historialList");
 
-    // Función para iniciar el proceso principal
-    const iniciarProceso = () => {
-        let continuar = true;
-        while (continuar) {
-            // creacion del munu
-            const opcion = prompt("Selecciona una opción:\n1. Realizar un cálculo\n2. Ver historial\n3. Salir");
-            switch (opcion) {
-                case "1":
-                    continuar = procesoImpuestoDelArticulo();
-                    break;
-                case "2":
-                    mostrarHistorial();
-                    break;
-                case "3":
-                    continuar = false;
-                    break;
-                default:
-                    alert("Numero incorrecto de opcion. Por favor, ingresa 1, 2 o 3.");
-            }
-        }
-        alert("Gracias, vuelva pronto.");
+  const obtenerNumeroValido = (valor, condicion) => {
+    const numero = parseFloat(valor);
+    return !isNaN(numero) && condicion(numero) ? numero : null;
+  };
+
+  const calcularImpuestoIVA = (precio) => {
+    return precio * 0.21;
+  };
+
+  const calcularDescuento = (precio, porcentaje) => {
+    return (precio * porcentaje) / 100;
+  };
+
+  const calcularPrecioFinal = (precio, descuento, impuestoIVA) => {
+    const precioConDescuento = precio - descuento;
+    return precioConDescuento + impuestoIVA;
+  };
+
+  const mostrarResultados = (precio, descuento, porcentajeDescuento, impuestoIVA, precioFinal) => {
+    document.getElementById("precioFinal").innerText = 
+      `Precio del artículo: ${precio.toFixed(2)}\n` +
+      `Descuento: ${descuento.toFixed(2)} (${porcentajeDescuento.toFixed(2)}%)\n` +
+      `Impuesto IVA: ${impuestoIVA.toFixed(2)}\n` +
+      `Precio final: ${precioFinal.toFixed(2)}`;
+    resultadoDiv.classList.remove("ocultar");
+  };
+
+  const agregarAlHistorial = (precio, descuento, porcentajeDescuento, impuestoIVA, precioFinal) => {
+    const nuevoItem = {
+      precio,
+      descuento,
+      porcentajeDescuento,
+      impuestoIVA,
+      precioFinal
     };
-    // Ejecutar el proceso principalss
-    iniciarProceso();
-};
-// Ejecutar el código
-evaluador();
+    historial.push(nuevoItem);
+    localStorage.setItem("historial", JSON.stringify(historial));
+  };
+
+  const mostrarHistorial = () => {
+    if (historial.length === 0) {
+      historialList.innerHTML = "<li>No realizaste ningún cálculo.</li>";
+      return;
+    }
+    historialList.innerHTML = historial.map((item, index) => `
+      <li>
+        Artículo ${index + 1}:
+        <ul>
+          <li>Precio: ${item.precio.toFixed(2)}</li>
+          <li>Descuento: ${item.descuento.toFixed(2)} (${item.porcentajeDescuento.toFixed(2)}%)</li>
+          <li>Impuesto IVA: ${item.impuestoIVA.toFixed(2)}</li>
+          <li>Precio Final: ${item.precioFinal.toFixed(2)}</li>
+        </ul>
+      </li>
+    `).join('');
+  };
+
+  calcularBtn.addEventListener("click", () => {
+    const precio = obtenerNumeroValido(document.getElementById("precio").value, (num) => num > 0);
+    const porcentajeDescuento = obtenerNumeroValido(document.getElementById("descuento").value, (num) => num >= 0 && num <= 100);
+    
+    if (precio === null || porcentajeDescuento === null) {
+      alert("Por favor, ingresa valores válidos.");
+      return;
+    }
+
+    const incluirIVA = document.getElementById("incluirIVA").checked;
+    const impuestoIVA = incluirIVA ? calcularImpuestoIVA(precio) : 0;
+    const descuento = calcularDescuento(precio, porcentajeDescuento);
+    const precioFinalArticulo = calcularPrecioFinal(precio, descuento, impuestoIVA);
+
+    mostrarResultados(precio, descuento, porcentajeDescuento, impuestoIVA, precioFinalArticulo);
+    agregarAlHistorial(precio, descuento, porcentajeDescuento, impuestoIVA, precioFinalArticulo);
+  });
+
+  showHistoryBtn.addEventListener("click", () => {
+    mostrarHistorial();
+    historialDiv.classList.remove("ocultar");
+    showHistoryBtn.classList.add("ocultar");
+    hideHistoryBtn.classList.remove("ocultar");
+  });
+
+  hideHistoryBtn.addEventListener("click", () => {
+    historialDiv.classList.add("ocultar");
+    showHistoryBtn.classList.remove("ocultar");
+    hideHistoryBtn.classList.add("ocultar");
+  });
+
+  // Mostrar historial al cargar la página si ya hay cálculos guardados
+  mostrarHistorial();
+});
+
+localStorage.clear();

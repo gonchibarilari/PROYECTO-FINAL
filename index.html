@@ -1,25 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Calculadora de IVA y Descuento</title>
+    <!-- Enlaza Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlaza el archivo CSS -->
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <header>
-<h1>Cotiza el valor de tu producto con su descuento y el impuesto de tu pais!</h1>
+    <header class="header-index">
+        <h1><a href="#">ALISARTE TUCUMAN</a></h1>
+        <nav class="">
+            <ul class="navbar">
+                <li><a href="#">INICIO</a></li>
+                <li><a href="./calculadora.html">CALCULADORA</a></li>
+                <li><a href="./pages/turnos.html">TURNOS</a></li>
+                <li><a href="./pages/conocenos.html">CONOCENOS</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
-<h2>Este es mi sitio web con javascript!</h2>
-<h3>Gonzalo Jesus Barilari</h3>
-<h4>SEGUNDA ENTREGA</h4>
+        <div id="calculator" class="container mt-5">
+            <h1>Calculadora</h1>
+            <div class="form-group">
+                <label for="precio">Precio del Artículo:</label>
+                <input type="number" id="precio" class="form-control" step="0.01" min="0" placeholder="Ingrese el precio">
+            </div>
+            <div class="form-group">
+                <label for="descuento">Porcentaje de Descuento:</label>
+                <input type="number" id="descuento" class="form-control" step="0.01" min="0" max="100" placeholder="Ingrese el porcentaje">
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="incluirIVA"> Incluir IVA
+                </label>
+            </div>
+            <button id="calcularBtn" class="btn btn-primary">Calcular</button>
+
+            <div id="resultado" class="ocultar mt-4">
+                <h2>Resultados:</h2>
+                <p id="precioFinal"></p>
+            </div>
+
+            <div id="historial" class="ocultar mt-4">
+                <h2>Historial de Cálculos:</h2>
+                <ul id="historialList"></ul>
+            </div>
+
+            <button id="showHistoryBtn" class="btn btn-secondary mt-4">Ver Historial</button>
+            <button id="hideHistoryBtn" class="btn btn-secondary mt-4 ocultar">Ocultar Historial</button>
+        </div>
     </main>
 
-    <footer>
-
+    <footer class="pt-5 pb-4">
+        <div class="container text-center text-md-start">
+            <div class="row text-center text-md-start">
+                <!-- Footer Content -->
+            </div>
+            <div class="text-center mb-2">
+                <p> DERECHOS RESERVADOS <a href="#"> <strong>GONZALO BARILARI</strong> </a> </p>
+            </div>
+        </div>
     </footer>
+
+    <!-- Enlaza jQuery y Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Enlaza el archivo JavaScript -->
     <script src="./js/main.js"></script>
 </body>
 </html>

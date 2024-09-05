@@ -1,11 +1,234 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-image: url(https://cdn.pixabay.com/photo/2021/09/13/21/06/floral-background-6622475_1280.png);
+    background-color: black;
+    opacity: 0.9;
+    z-index: 1;
+
+}
+
+.header-index {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(247, 123, 123, 0.7);
+    padding: 20px; /* Usa solo un padding */
+    list-style-type: none; /* Elimina los puntos de viñeta si aplica a una lista */
+}
+
+.header-index h1 a {
+    display: flex;
+    gap: 50px; /* Espacio entre los elementos dentro de <h1> */
+}
+
+.header-index nav {
+    display: flex;
+    gap: 20px; /* Espacio entre los elementos de navegación */
+}
+
+.header-index ul li{
+    display: inline; /* Muestra los elementos de la lista en línea */
+}
+
+.header-index nav a {
+    padding: 20px; /* Espaciado alrededor de los enlaces de navegación */
+    color: inherit; /* Hereda el color del elemento padre */
+}
+
+footer{
+    background-color:  rgba(0, 0, 0, 0.1);
+    color: white;
+        text-decoration: none;
+        list-style: none;
+        color: inherit;
+}
+
 h1{
     display: flex;
     justify-content: center;
-    text-align: center;
     color: red;
-    padding: 50px;
+    padding: 20px;
+    gap: 20px;
 }
-h2, h3, h4{
+
+main {
+    padding: 20px;
+  }
+  
+  /* Estilo del catálogo */
+  .catalog {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap; /* Permite que los artículos se envuelvan en la siguiente fila si es necesario */
+    gap: 20px; /* Espacio entre los artículos */
+    justify-content: center; /* Centra los artículos en el contenedor */
+  }
+  
+  /* Estilo de cada artículo */
+  .item {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+    width: 200px; /* Tamaño fijo de los artículos */
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box; /* Incluye padding y border en el tamaño total del elemento */
+  }
+  
+  .item img {
+    max-width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .item h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+  
+  .item p.price {
+    color: #e53935;
+    font-size: 1.4em;
+    margin: 10px 0;
+  }
+  
+  .item button {
+    background: #e53935;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1em;
+  }
+  
+  .item button:hover {
+    background: #c62828;
+  }
+  
+.hidden {
+    display: none;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+button {
+    padding: 10px 15px;
+    font-size: 16px;
+}
+.result, .history {
+    margin-top: 20px;
+}
+
+/* General Styles */
+main {
+  display: flex;
+  justify-content: center;
+}
+
+/* Container */
+#calculator {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 600px;
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Results */
+#result, #history {
+  margin-top: 20px;
+}
+
+#result h2, #history h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* History */
+#history {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Espacio entre los elementos */
+}
+
+#historyList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espacio entre los elementos */
+  width: 100%;
+}
+
+#historyList li {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  width: calc(50% - 10px); /* Dos elementos por fila, restando el espacio entre ellos */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#historyList li ul {
+  padding-left: 20px;
+}
+
+/* Hidden Class */
+.hidden {
+  display: none;
 }
