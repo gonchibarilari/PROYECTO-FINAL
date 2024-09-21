@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Cargar historial desde localStorage o inicializar como vacío
   let historial = JSON.parse(localStorage.getItem("historial")) || [];
 
-  // Obtener elementos del DOM
   const calcularBtn = document.getElementById("calcularBtn");
   const showHistoryBtn = document.getElementById("showHistoryBtn");
   const hideHistoryBtn = document.getElementById("hideHistoryBtn");
@@ -16,14 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return !isNaN(numero) && condicion(numero) ? numero : null;
   };
 
-  // Cálculo del IVA
-  const calcularImpuestoIVA = (precio) => precio * 0.21;
-
-  // Cálculo del descuento
-  const calcularDescuento = (precio, porcentaje) => (precio * porcentaje) / 100;
-
-  // Cálculo del precio final
-  const calcularPrecioFinal = (precio, descuento, impuestoIVA) => (precio - descuento) + impuestoIVA;
+  // Función para calcular impuestos y descuentos
+  const calcular = (precio, porcentajeDescuento, incluirIVA) => {
+    const impuestoIVA = incluirIVA ? precio * 0.21 : 0;
+    const descuento = (precio * porcentajeDescuento) / 100;
+    const precioFinal = (precio - descuento) + impuestoIVA;
+    return { descuento, impuestoIVA, precioFinal };
+  };
 
   // Mostrar resultados en el DOM
   const mostrarResultados = (precio, descuento, porcentajeDescuento, impuestoIVA, precioFinal) => {
@@ -71,13 +68,18 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const incluirIVA = document.getElementById("incluirIVA").checked;
-    const impuestoIVA = incluirIVA ? calcularImpuestoIVA(precio) : 0;
-    const descuento = calcularDescuento(precio, porcentajeDescuento);
-    const precioFinalArticulo = calcularPrecioFinal(precio, descuento, impuestoIVA);
-
-    mostrarResultados(precio, descuento, porcentajeDescuento, impuestoIVA, precioFinalArticulo);
-    agregarAlHistorial(precio, descuento, porcentajeDescuento, impuestoIVA, precioFinalArticulo);
+    Swal.fire({
+      title: 'Procesando resultado',
+      icon: 'info',
+      showConfirmButton: false,
+      timer: 2000
+    }).then(() => {
+      const incluirIVA = document.getElementById("incluirIVA").checked;
+      const { descuento, impuestoIVA, precioFinal } = calcular(precio, porcentajeDescuento, incluirIVA);
+      
+      mostrarResultados(precio, descuento, porcentajeDescuento, impuestoIVA, precioFinal);
+      agregarAlHistorial(precio, descuento, porcentajeDescuento, impuestoIVA, precioFinal);
+    });
   });
 
   // Eventos para mostrar y ocultar historial
