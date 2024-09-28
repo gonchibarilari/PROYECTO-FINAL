@@ -232,3 +232,20 @@ button:hover {
 .hidden {
   display: none;
 }
+
+#historial {
+  text-align: center; /* Centra el texto dentro del div */
+}
+
+#historialList {
+  list-style-type: none; /* Quita los puntos de la lista */
+  padding: 0; /* Elimina el padding */
+}
+
+#historialList li {
+  margin: 10px 0; /* Espaciado entre elementos de la lista */
+  border: 1px solid #ccc; /* Añade un borde */
+  border-radius: 5px; /* Bordes redondeados */
+  padding: 15px; /* Espaciado interno */
+  background-color: #f9f9f9; /* Color de fondo suave */
+}

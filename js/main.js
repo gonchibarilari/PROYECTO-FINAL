@@ -8,13 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const historialDiv = document.getElementById("historial");
   const historialList = document.getElementById("historialList");
 
-  // Función para validar números
   const obtenerNumeroValido = (valor, condicion) => {
     const numero = parseFloat(valor);
     return !isNaN(numero) && condicion(numero) ? numero : null;
   };
 
-  // Función para calcular impuestos y descuentos
   const calcular = (precio, porcentajeDescuento, incluirIVA) => {
     const impuestoIVA = incluirIVA ? precio * 0.21 : 0;
     const descuento = (precio * porcentajeDescuento) / 100;
@@ -22,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return { descuento, impuestoIVA, precioFinal };
   };
 
-  // Mostrar resultados en el DOM
   const mostrarResultados = (precio, descuento, porcentajeDescuento, impuestoIVA, precioFinal) => {
     document.getElementById("precioFinal").innerText = 
       `Precio del artículo: ${precio.toFixed(2)}\n` +
@@ -32,14 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
     resultadoDiv.classList.remove("ocultar");
   };
 
-  // Agregar al historial en localStorage
   const agregarAlHistorial = (precio, descuento, porcentajeDescuento, impuestoIVA, precioFinal) => {
     const nuevoItem = { precio, descuento, porcentajeDescuento, impuestoIVA, precioFinal };
     historial.push(nuevoItem);
     localStorage.setItem("historial", JSON.stringify(historial));
   };
 
-  // Mostrar historial en el DOM
   const mostrarHistorial = () => {
     if (historial.length === 0) {
       historialList.innerHTML = "<li>No realizaste ningún cálculo.</li>";
@@ -58,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Evento para calcular el precio
   calcularBtn.addEventListener("click", () => {
     const precio = obtenerNumeroValido(document.getElementById("precio").value, num => num > 0);
     const porcentajeDescuento = obtenerNumeroValido(document.getElementById("descuento").value, num => num >= 0 && num <= 100);
@@ -82,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Eventos para mostrar y ocultar historial
   showHistoryBtn.addEventListener("click", () => {
     mostrarHistorial();
     historialDiv.classList.remove("ocultar");
@@ -95,6 +88,22 @@ document.addEventListener("DOMContentLoaded", () => {
     showHistoryBtn.classList.remove("ocultar");
     hideHistoryBtn.classList.add("ocultar");
   });
+
+
+  const borrarHistorial = () => {
+    localStorage.removeItem("historial");
+    historial = [];
+    historialList.innerHTML = "<li>Historial borrado.</li>";
+    Swal.fire({
+      title: 'Historial Borrado',
+      text: 'El historial ha sido eliminado exitosamente.',
+      icon: 'success',
+      timer: 2000,
+      showConfirmButton: false
+    });
+  };
+
+  clearHistoryBtn.addEventListener("click", borrarHistorial);
 
   // Mostrar historial al cargar la página
   mostrarHistorial();
